@@ -1,0 +1,346 @@
+{
+  "id": "design-studio",
+  "name": "Design Studio",
+  "version": "0.1.0",
+  "icon": "icon.svg",
+  "description": "An agent-first native workspace for brand directions, artboards, component boards and working component review.",
+  "entry": "main.js",
+  "ui": "ui/index.html",
+  "strictArgs": true,
+  "window": {
+    "width": 1180,
+    "height": 820,
+    "title": "Design Studio",
+    "minWidget": {
+      "width": 240,
+      "height": 96
+    }
+  },
+  "commands": {
+    "benchState": {
+      "help": "Read the acknowledged graph, runs, recovery status and Studio metadata for the exact native tab/project. Use tabId to avoid focused-window fallback.",
+      "args": {
+        "projectId": "string?"
+      }
+    },
+    "benchRetryStorage": {
+      "help": "Confirm saved workspace state before resuming changes.",
+      "args": {
+        "projectId": "string?"
+      }
+    },
+    "benchContent": {
+      "help": "Read artefact content with one original image per reply. imageIds lists owned images; omit imageId for the first, or request one listed id.",
+      "args": {
+        "artifactId": "string",
+        "imageId": "string?",
+        "metadataOnly": "boolean?"
+      }
+    },
+    "benchStageInput": {
+      "help": "Store one original reference image and return its compact owned asset receipt before saving inputs.",
+      "args": {
+        "mime": "string",
+        "base64": "string",
+        "name": "string?"
+      }
+    },
+    "benchSaveInputs": {
+      "help": "Save an immutable brief revision in this project. Pass revises for the current input and retain operationId across uncertain replies.",
+      "args": {
+        "name": "string",
+        "brief": "string",
+        "references": "object[]",
+        "revises": "string?",
+        "operationId": "string?"
+      }
+    },
+    "benchChooseDirection": {
+      "help": "Remember the selected image for this exact direction board without revising artwork or approving it.",
+      "args": {
+        "artifactId": "string",
+        "variant": "number"
+      }
+    },
+    "benchOpen": {
+      "help": "Navigate this project window to an exact artifact revision. newTab is compatibility-only; other projects need studioNewWindow.",
+      "args": {
+        "artifactId": "string",
+        "newTab": "boolean?"
+      }
+    },
+    "benchGenerate": {
+      "help": "Generate four directions, then artboard, then component board from approved sources. format=html converts a component board with an explicit ready coding session. A note revises the current artifact; HTML stays HTML. Never approves.",
+      "args": {
+        "artifactId": "string",
+        "note": "string?",
+        "variant": "number?",
+        "builder": "string?",
+        "builderWindowId": "string?",
+        "format": "string?"
+      }
+    },
+    "benchCancel": {
+      "help": "Suppress late output for this exact run and request an interrupt in its acknowledged original coding session. Returns separate interrupt and persistence receipts; a request does not confirm the agent stopped. retryInterrupt retries only a failed interrupt request. Completed runs return outputSuppressed:false without writes.",
+      "args": {
+        "runId": "string",
+        "retryInterrupt": "boolean?"
+      }
+    },
+    "benchRetry": {
+      "help": "benchRetry",
+      "args": {
+        "runId": "string",
+        "builderWindowId": "string?"
+      }
+    },
+    "benchAnnotate": {
+      "help": "benchAnnotate",
+      "args": {
+        "artifactId": "string",
+        "text": "string",
+        "selector": "string?",
+        "x": "number",
+        "y": "number",
+        "width": "number",
+        "height": "number",
+        "id": "string?",
+        "target": "string?",
+        "space": "string?"
+      }
+    },
+    "benchRemoveAnnotation": {
+      "help": "benchRemoveAnnotation",
+      "args": {
+        "artifactId": "string",
+        "id": "string"
+      }
+    },
+    "benchImageStatus": {
+      "help": "check the configured Wonop image tier before generation",
+      "args": {}
+    },
+    "benchTargets": {
+      "help": "benchTargets",
+      "args": {}
+    },
+    "publishBuild": {
+      "help": "Publish complete working component HTML for the exact handed-off run and unchanged captured sourceHashes. Requires a live renderer and successful read-back; never approves.",
+      "args": {
+        "runId": "string",
+        "screen": "string",
+        "version": "string",
+        "html": "string",
+        "sourceHashes": "object[]"
+      }
+    },
+    "benchImportArtifact": {
+      "help": "Import four direction images, one artboard/component image, or component HTML from an approved source. Outputs remain drafts. Exact corrections pass revises=artifactId.",
+      "args": {
+        "artifactId": "string",
+        "revises": "string?",
+        "variant": "number?",
+        "images": "object[]?",
+        "html": "string?",
+        "format": "string?"
+      }
+    },
+    "benchDraftRead": {
+      "help": "Read the native tab input recovery binding, or bounded pending readiness.",
+      "args": {
+        "artifactId": "string?"
+      }
+    },
+    "benchDraftAttach": {
+      "help": "Verify this native tab binding; UUIDs cannot claim another draft.",
+      "args": {
+        "draftId": "string?"
+      }
+    },
+    "benchDraftWrite": {
+      "help": "Checkpoint this tab compact input draft with compare-and-set.",
+      "args": {
+        "expectedRevision": "number",
+        "draft": "object",
+        "artifactId": "string?"
+      }
+    },
+    "benchDraftImage": {
+      "help": "Read one acknowledged original image belonging to this tab.",
+      "args": {
+        "referenceId": "string",
+        "source": "string?",
+        "artifactId": "string?"
+      }
+    },
+    "benchDraftBegin": {
+      "help": "Persist an exact input-save intent before publication.",
+      "args": {
+        "expectedRevision": "number",
+        "operationId": "string",
+        "draft": "object?",
+        "artifactId": "string?"
+      }
+    },
+    "benchDraftCommit": {
+      "help": "Publish or reconcile this tab exact durable save intent.",
+      "args": {
+        "operationId": "string",
+        "artifactId": "string?"
+      }
+    },
+    "benchDraftConflict": {
+      "help": "Preserve this tab local conflict copy without replacing its saved draft.",
+      "args": {
+        "artifactId": "string?",
+        "expectedRevision": "number",
+        "conflictId": "string?",
+        "draft": "object"
+      }
+    },
+    "benchDraftResolve": {
+      "help": "Choose a compared version at the exact reviewed checkpoint.",
+      "args": {
+        "artifactId": "string?",
+        "expectedRevision": "number",
+        "conflictId": "string",
+        "choice": "string"
+      }
+    },
+    "benchAnnotationHistory": {
+      "help": "Read resolved comments on this exact artefact revision.",
+      "args": {
+        "artifactId": "string",
+        "target": "string?"
+      }
+    },
+    "benchReplyAnnotation": {
+      "help": "Reply to an exact revision comment. Reuse operationId when retrying the same send.",
+      "args": {
+        "artifactId": "string",
+        "id": "string",
+        "text": "string",
+        "target": "string?",
+        "operationId": "string?"
+      }
+    },
+    "benchReopenAnnotation": {
+      "help": "Reopen an exact resolved comment while preserving its thread and anchor.",
+      "args": {
+        "artifactId": "string",
+        "id": "string",
+        "target": "string?"
+      }
+    },
+    "benchOpenCoder": {
+      "help": "Open Codex or Claude in this Bench workspace through Wonop. Requires separate opening approval. Returns window identity only; refresh sessions to check readiness before starting a task.",
+      "args": {
+        "builder": "string"
+      }
+    },
+    "studioNewWindow": {
+      "help": "Open a new project in a separate native window.",
+      "args": {}
+    },
+    "studioPreferences": {
+      "help": "Read or save this project\u2019s reviewer display name and approval navigation preference.",
+      "args": {
+        "projectId": "string?",
+        "reviewer": "string?",
+        "autoAdvance": "boolean?"
+      }
+    },
+    "studioDraft": {
+      "help": "Acknowledge an instruction or selection draft; PNG bytes remain native assets.",
+      "args": {
+        "artifactId": "string",
+        "kind": "string",
+        "text": "string",
+        "selection": "object?"
+      }
+    },
+    "studioExport": {
+      "help": "Save the current project graph/provenance manifest; saved=false means canceled.",
+      "args": {
+        "projectId": "string?"
+      }
+    },
+    "studioCapture": {
+      "help": "Record an actual isolated HTML render against exact source hashes; never generates an image.",
+      "args": {
+        "artifactId": "string",
+        "contentHash": "string",
+        "imageId": "string",
+        "width": "number",
+        "height": "number",
+        "theme": "string"
+      }
+    },
+    "studioEvidence": {
+      "help": "Read one owned comparison image and its immutable capture/feedback provenance.",
+      "args": {
+        "artifactId": "string",
+        "feedbackId": "string?",
+        "imageId": "string?"
+      }
+    },
+    "studioFeedback": {
+      "help": "Persist exact comparison evidence and dispatch a native coding revision. Reuse operationId on an uncertain reply; receipt is not completion.",
+      "args": {
+        "artifactId": "string",
+        "captureId": "string",
+        "operationId": "string",
+        "comment": "string?",
+        "area": "object",
+        "bounds": "object",
+        "images": "object",
+        "builder": "string",
+        "builderWindowId": "string"
+      }
+    }
+  },
+  "permissions": {
+    "exec": [
+      "find * -maxdepth 0 -type d $",
+      "find * -name index.html $",
+      "cat * $",
+      "tee * $",
+      "mkdir -p * $",
+      "pwd -P $"
+    ],
+    "ai": [
+      "image"
+    ],
+    "apps": [
+      "codex",
+      "claude"
+    ],
+    "appOpen": [
+      "codex",
+      "claude"
+    ]
+  },
+  "config": {
+    "designsRoot": {
+      "help": "Workspace-relative folder for validated working component HTML. Original artwork and checkpoints remain native assets.",
+      "type": "string",
+      "default": "design-studio"
+    },
+    "imageTier": {
+      "type": "string",
+      "default": "medium",
+      "help": "Configured Settings > AI image tier: cheap, medium or expensive."
+    }
+  },
+  "palette": [
+    {
+      "title": "Open Design Studio",
+      "snippet": "await wm.app.open(\"design-studio\")"
+    }
+  ],
+  "tabs": {
+    "max": 1,
+    "newTab": "blank",
+    "label": "Project"
+  }
+}
